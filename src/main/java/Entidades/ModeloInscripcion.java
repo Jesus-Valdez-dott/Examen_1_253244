@@ -5,6 +5,7 @@
 package Entidades;
 
 import Observer.IObservadorInscripcion;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,17 +66,12 @@ public class ModeloInscripcion {
 
     public void confirmarInscripcion() {
         if (tallerSeleccionado != null && alumnoActual != null) {
-            String ticket = "=====================================\n"
-                          + " ✅ TICKET DE INSCRIPCIÓN \n"
-                          + "=====================================\n"
-                          + "Folio: #98765\n"
-                          + "Alumno: " + alumnoActual.getNombre() + " (ID: " + alumnoActual.getId() + ")\n"
-                          + tallerSeleccionado.getDetallesCompletos() + "\n"
-                          + "=====================================";
-            
-            for (IObservadorInscripcion obs : observadores) {
-                obs.mostrarTicketInscripcion(ticket);
-            }
+            String folio = "#" + (int)(Math.random() * 10000);
+            Ticket ticket = new Ticket(folio, alumnoActual, tallerSeleccionado, LocalDateTime.MIN);
+        
+            for (IObservadorInscripcion obs : observadores){
+                obs.mostrarTicketInscripcion(ticket.formatearParaPantalla());
+            }    
         }
     }
 }
